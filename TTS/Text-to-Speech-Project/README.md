@@ -1,4 +1,4 @@
-# 🎙️ AWS Serverless Text-to-Speech Application
+#  AWS Serverless Text-to-Speech Application
 
 This project is a **serverless text-to-speech (TTS) application** powered by AWS.  
 Users can enter text via a web frontend, which calls an **API Gateway** endpoint. The request triggers a **Lambda function** that uses **Amazon Polly** to synthesize speech. The generated audio is stored in an **S3 bucket**, where it can be retrieved via API or direct download.
@@ -17,9 +17,9 @@ Users can enter text via a web frontend, which calls an **API Gateway** endpoint
 
 ---
 
-## 📖 Project Overview
+##  Project Overview
 
-### 🎯 Objectives
+###  Objectives
 - Build a **scalable, cost-effective serverless application**.  
 - Integrate **Amazon Polly** for speech synthesis.  
 - Expose APIs for **text-to-speech conversion** and **task retrieval**.  
@@ -28,7 +28,7 @@ Users can enter text via a web frontend, which calls an **API Gateway** endpoint
 
 ---
 
-## 🏗 Architecture
+##  Architecture
 
 <img width="610" height="374" alt="image" src="https://github.com/user-attachments/assets/6d41d282-f4df-4643-926a-c9cf7442fe0d" />
 
@@ -87,7 +87,7 @@ Users can enter text via a web frontend, which calls an **API Gateway** endpoint
 ---
 ---
 
-## ☁️ AWS Services Used
+##  AWS Services Used
 - **AWS Lambda** – serverless compute  
 - **Amazon Polly** – text-to-speech  
 - **Amazon S3** – website hosting + audio storage  
@@ -97,7 +97,7 @@ Users can enter text via a web frontend, which calls an **API Gateway** endpoint
 
 ---
 
-## 🚧 Challenges & Solutions
+##  Challenges & Solutions
 
 | Challenge | Solution |
 |-----------|----------|
@@ -108,7 +108,7 @@ Users can enter text via a web frontend, which calls an **API Gateway** endpoint
 
 ---
 
-## 🔮 Future Improvements
+##  Future Improvements
 - Add **CloudFront + TLS certificate** for HTTPS delivery.  
 - Require **API keys / Cognito authentication**.  
 - Support **multipart audio for long text**.  
@@ -116,9 +116,9 @@ Users can enter text via a web frontend, which calls an **API Gateway** endpoint
 
 ---
 
-## 👨‍💻 For Developers
+##  For Developers
 
-### ✨ Features
+###  Features
 - Convert text → speech using **Amazon Polly**.  
 - Audio stored securely in S3 (auto-expires after 30 days).  
 - REST APIs:
