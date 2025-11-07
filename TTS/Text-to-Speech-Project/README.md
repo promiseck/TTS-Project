@@ -5,7 +5,7 @@ Users can enter text via a web frontend, which calls an **API Gateway** endpoint
 
 ---
 
-[![Build with SAM](https://img.shields.io/badge/Build-SAM-blue)](https://docs.aws.amazon.com/serverless-application-model/)  
+
 [![AWS Lambda](https://img.shields.io/badge/Runtime-Node.js%2018.x-green)](https://aws.amazon.com/lambda/)  
 ![Status](https://img.shields.io/badge/Status-Active-success)  
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)  
