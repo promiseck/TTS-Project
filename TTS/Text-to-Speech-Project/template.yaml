@@ -1,0 +1,114 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Serverless Text-to-Speech App (Polly -> S3 + API Gateway + Lambda)
+
+Globals:
+  Function:
+    Runtime: nodejs18.x
+    Timeout: 30
+    MemorySize: 512
+
+Resources:
+
+  WebsiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: tts-website-diya
+      WebsiteConfiguration:
+        IndexDocument: index.html
+
+  AudioBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: tts-audio-diya
+      LifecycleConfiguration:
+        Rules:
+          - Id: expire-old-audio
+            Status: Enabled
+            ExpirationInDays: 30
+
+  PollyFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: tts-polly-role-diya
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: tts-polly-policy-diya
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: AllowPollySynthesize
+                Effect: Allow
+                Action:
+                  - polly:SynthesizeSpeech
+                Resource: "*"
+              - Sid: AllowS3ForAudioBucket
+                Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                  - s3:ListBucket
+                Resource:
+                  - !GetAtt AudioBucket.Arn
+                  - !Sub "${AudioBucket.Arn}/*"
+              - Sid: AllowCloudWatchLogs
+                Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "arn:aws:logs:*:*:*"
+
+  # Define the API Gateway with CORS enabled globally
+  TextToSpeechApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Cors:
+        AllowMethods: "'GET,POST,OPTIONS'"
+        AllowHeaders: "'Content-Type,Authorization'"
+        AllowOrigin: "'*'"
+
+  PollyFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: tts-polly-diya
+      Handler: index.handler
+      CodeUri: polly_lambda/
+      Role: !GetAtt PollyFunctionRole.Arn
+      Environment:
+        Variables:
+          AUDIO_BUCKET: !Ref AudioBucket
+      Events:
+        StartSynthesis:
+          Type: Api
+          Properties:
+            Path: /synthesize
+            Method: post
+            RestApiId: !Ref TextToSpeechApi
+        GetTask:
+          Type: Api
+          Properties:
+            Path: /task/{taskId}
+            Method: get
+            RestApiId: !Ref TextToSpeechApi
+
+Outputs:
+  WebsiteBucketName:
+    Description: "Static website bucket (S3)"
+    Value: !Ref WebsiteBucket
+
+  AudioBucketName:
+    Description: "Audio storage bucket (S3)"
+    Value: !Ref AudioBucket
+
+  ApiUrl:
+    Description: "Base API URL (append /synthesize or /task/{id})"
+    Value: !Sub "https://${TextToSpeechApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"

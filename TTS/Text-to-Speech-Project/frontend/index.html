@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Text to Speech Converter</title>
+  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <div class="container">
+    <h1>Text to Speech Converter</h1>
+    <textarea id="textInput" placeholder="Enter your text here..."></textarea>
+    <select id="voiceSelect">
+      <option value="Amy">Amy (British English)</option>
+      <option value="Joanna">Joanna (US English)</option>
+      <option value="Matthew">Matthew (US English)</option>
+      <option value="Emma">Emma (British English)</option>
+    </select>
+    <button id="convertBtn" onclick="synthesize()">Convert to Speech</button>
+    <p id="status"></p>
+    <audio id="audioPlayer" controls></audio>
+    <a id="downloadLink" class="download-btn" href="#" download="tts-audio.mp3" style="display:none;">Download Audio</a>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
