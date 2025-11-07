@@ -30,7 +30,9 @@ Users can enter text via a web frontend, which calls an **API Gateway** endpoint
 
 ## 🏗 Architecture
 
-![System Architecture](assets/architecture.png)
+<img width="610" height="374" alt="image" src="https://github.com/user-attachments/assets/6d41d282-f4df-4643-926a-c9cf7442fe0d" />
+
+
 
 ### Components
 1. **Frontend (Static Website)** → Hosted in S3, allows users to input text.  
